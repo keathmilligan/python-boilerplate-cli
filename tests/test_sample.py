@@ -4,7 +4,7 @@ Sample Test
 # pylint: disable=redefined-outer-name, unused-argument
 
 import pytest
-import sample.main
+import sample.biz
 
 
 @pytest.fixture
@@ -15,9 +15,9 @@ def sample_fixture():
 
 def test_func(sample_fixture):
     """Test the sample function"""
-    assert sample.main.sample_func(1) == 2
+    assert sample.biz.sample_func(1) == 2
 
 
 def test_negative(sample_fixture):
     """Negative test of sample function"""
-    assert sample.main.sample_func(-2) == -1
+    assert sample.biz.sample_func(-2) == -1

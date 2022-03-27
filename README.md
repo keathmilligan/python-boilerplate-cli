@@ -1,13 +1,16 @@
-Python Project Boilerplate
-==========================
+Python CLI Project Boilerplate
+==============================
 
 This repo provides a standardized template for Python package projects. The project structure is based on the layout [recommended by Kenneth Reitz](https://kennethreitz.org/essays/2013/01/27/repository-structure-and-python) with a few modern updates.
 
-> This template is best suited for projects such as a library or framework that you intend to publish to a public or private repository. For general applications, I recommend the [Python Application Template](https://github.com/keathmilligan/python-app-template) instead. For web applications and services, see [Flask Quick Start](https://github.com/keathmilligan/flask-quickstart).
+This variation includes a command-line interface built using [Click](https://click.palletsprojects.com/en/8.0.x/).
+
+> This template is best suited for projects such as a library or framework that you intend to publish to a public or private repository. For general applications, I recommend the [Python Application Template](https://github.com/keathmilligan/python-app-template) instead. For web applications and services, see [Flask Quick Start](https://github.com/keathmilligan/flask-quickstart) and [Flask Service](https://github.com/keathmilligan/flask-service).
 
 Features:
 * Editable install support
 * Support for installing development dependencies through setup.py
+* Command line interface support with color output
 * PyTest unit-test support
 * PyLint
 * An [.editorconfig](http://editorconfig.org/) file
@@ -119,3 +122,60 @@ python setup.py bdist_wheel
 > Alternatively, you can add the `--universal` option to the `bdist_wheel` command to build a "universal" distribution that can be used with both Python 3.x and 2.7.x.
 
 The wheel will be generated in the `dist` directory.
+
+
+## Command Line Interface
+
+When the package is installed, an executable command-line script wrapper will be generated and added to the PATH (either globally or local to the virtual environment depending on how you installed it). The sample command is `sample_cli`:
+
+![Screenshot](/screenshot.png)
+
+The entry point is defined in `setup.cfg` in the `entry_points` section:
+
+```toml
+[options]
+packages = find:
+install_requires =
+    click
+    colorama
+setup_requires =
+    pytest-runner
+    wheel
+tests_requires =
+    pytest
+entry_points =
+    [console_scripts]
+    sample_cli=sample:cli
+[options.extras_require]
+dev =
+    pytest
+    pylint
+    Sphinx
+    wheel
+```
+
+### Debugging the CLI
+
+The command line interface can also be called by invoking the package as a command:
+
+```
+python -m sample <options/args>
+```
+
+If you need to debug the CLI, use this method to launch it in the debugger. For example, in the VSCode Python debugger, you can create a launch profile similar to:
+
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Module",
+            "type": "python",
+            "request": "launch",
+            "module": "sample",
+            "justMyCode": true,
+            "args": ["-b", "somevalue"]
+        }
+    ]
+}
+```
