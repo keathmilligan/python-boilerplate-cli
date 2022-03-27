@@ -132,7 +132,7 @@ When the package is installed, an executable command-line script wrapper will be
 
 The entry point is defined in `setup.cfg` in the `entry_points` section:
 
-```toml
+```ini
 [options]
 packages = find:
 install_requires =
